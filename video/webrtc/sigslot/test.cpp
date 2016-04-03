@@ -10,6 +10,7 @@ const int FALSE = 0;
 class Switch {
 public:
     signal0<> Clicked;
+    signal1<int> ClickedOne;
 };
 
 class Light : public has_slots<> {
@@ -18,7 +19,20 @@ public:
     void ToggleState() { b_state = !b_state; Displaystate(); }
     void TurnOn() { b_state = TRUE; Displaystate(); }
     void TurnOff() { b_state = FALSE; Displaystate(); }
-    void Displaystate() { cout << "The state is " << b_state << endl; }
+
+    void TurnClickedOne(int i) {
+        if (i == 0) {
+            b_state = FALSE;
+        } else {
+            b_state = TRUE;
+        }
+
+        cout << "Call TurnClickedOne, parameter = " << i << endl;
+        Displaystate();
+    }
+    void Displaystate() {
+        cout << "The state is " << b_state << endl;
+    }
 private:
     bool b_state;
 };
@@ -37,6 +51,11 @@ int main(void) {
     sw2.Clicked();
     all_on.Clicked();
     all_off.Clicked();
+
+    sw1.ClickedOne.connect(&lp1, &Light::TurnClickedOne);
+    sw1.ClickedOne(0);
+    sw1.ClickedOne(1);
+
 
     sw1.Clicked.disconnect(&lp1);
     sw2.Clicked.disconnect(&lp2);
