@@ -5,4 +5,5 @@ var writeStream = fs.createWriteStream("output.txt");
 readStream.pipe(writeStream);
 
 console.log("program ended");
+console.log("program ended");
 
