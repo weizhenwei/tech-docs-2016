@@ -32,14 +32,42 @@ void get_wireless_info(int fd, const char *ifname) {
     // memset(&wstats, 0, sizeof(wstats));
     // wreq.u.data.pointer = &wstats;
     // wreq.u.data.length = sizeof(wstats);
+   
+    printf("fd = %d\n", fd);
+
+    wreq.u.data.pointer = NULL;
+    wreq.u.data.flags = 0;
+    wreq.u.data.length = 0;
+    // initialize scanning
+    ioctl(fd, SIOCGIWSCAN, &wreq);
+
+
+    fd_set rfds;       /* File descriptors for select */
+    struct timeval tv;             /* Select timeout */
+    int     last_fd;    /* Last fd */
+    int       ret;
+    FD_ZERO(&rfds);
+    last_fd = -1;
+    tv.tv_sec = 0;
+    tv.tv_usec = 250000;
+    tv.tv_usec = 0;
+
+    /* Wait until something happens */
+    ret = select(last_fd + 1, &rfds, NULL, NULL, &tv);
+    /* Check if there was an error */
+    if (ret < 0) {
+        // if(errno == EAGAIN || errno == EINTR)
+        //     continue;
+        fprintf(stderr, "Unhandled signal - exiting...\n");
+        return;
+    } 
 
     // struct iw_scan_req scanopt;
-    char buffer[32];
+    char buffer[4096];
     wreq.u.data.pointer = buffer;
     wreq.u.data.flags = 0;
     wreq.u.data.length = sizeof(buffer);
 
-    // if (ioctl(fd, SIOCGIWSTATS, &wreq) == -1) {
     if (ioctl(fd, SIOCGIWSCAN, &wreq) == -1) {
         perror("IOCTL SIOCGIWSCAN");
         return;
