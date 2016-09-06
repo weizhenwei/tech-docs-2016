@@ -11,5 +11,10 @@ def printmemore(str):
     print "hehe, ", str
     return
 
-printmemore("goog")
+if __name__ == "__main__":
+    print "called by runing support"
+    printmemore("self")
+else:
+    print "called from import"
+    printmemore("import")
 
