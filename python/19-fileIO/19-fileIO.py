@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 
 # raw_input a text line
 sstr = raw_input("Please input:")
@@ -30,4 +31,12 @@ sstr = fileobj.read(10)
 print "read file again:", sstr
 position = fileobj.tell()
 print "current position again:", position
+fileobj.close()
+
+
+os.rename("a.txt", "b.txt")
+os.remove("b.txt")
+os.mkdir("hello")
+
+
 
