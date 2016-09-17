@@ -43,3 +43,30 @@ else:
     setattr(emp1, "age", 19)
 
 
+# built-in attribute
+print "Employee.__doc__:", Employee.__doc__
+print "Employee.__name__:", Employee.__name__
+print "Employee.__module__:", Employee.__module__
+print "Employee.__bases__:", Employee.__bases__
+print "Employee.__dict__:", Employee.__dict__
+
+
+# gc
+class Point:
+    def __init__(self, x = 0, y = 0):
+        self.x = x
+        self.y = y
+
+    def __del__(self):
+        class_name = self.__class__.__name__
+        print class_name, "destroyed"
+
+
+p1 = Point(1, 2)
+p2 = p1
+p3 = p1
+print id(p1), id(p2), id(p3)
+del p1
+del p2
+del p3
+
