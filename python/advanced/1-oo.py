@@ -70,3 +70,70 @@ del p1
 del p2
 del p3
 
+
+class Parent:
+    parentAttr = 100
+    def __init__(self):
+        print "Call Parent constructor"
+
+    def parentMethod(self):
+        print "Call Parent Method"
+
+    def setAttr(self, attr):
+        self.parentAttr = attr
+
+    def getAttr(self):
+        print "parent attribute:", Parent.parentAttr
+
+
+class Child(Parent):
+    def __init__(self):
+        print "Call Child Constructor"
+
+    def childMethod(self):
+        print "Call Child Method"
+
+c = Child()
+c.childMethod()
+c.parentMethod()
+c.setAttr(1000)
+c.getAttr()
+
+
+# override
+class Vector:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def __str__(self):
+        return 'Vector (%d, %d)' % (self.a, self.b)
+    
+    def __add__(self, other):
+        return Vector(self.a + other.a, self.b + other.b)
+    
+    
+v1 = Vector(2, 10)
+v2 = Vector(5, -2)
+print v1 + v2
+
+
+# private attribute and method, with prefix __, eg, __foo
+class JusCounter:
+    __secretCount = 0  # private attribute
+    publicCount = 0    # public attribute
+
+    def __count(self):
+        print self.__secretCount
+
+    def count(self):
+        self.__secretCount += 1
+        self.publicCount += 1
+        self.__count()
+
+
+counter = JusCounter()
+counter.count()
+counter.count()
+print counter.publicCount
+
